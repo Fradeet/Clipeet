@@ -9,10 +9,10 @@
             width: 600px;
                 padding: 15px 20px;
              }
-        #div {
+        .view-div {
                 padding: 5px;
                 margin-top: 5px;
-                border: 0px solid grey;
+                border: 1px solid grey;
             }
         h1 {
             color: blue;
@@ -28,13 +28,13 @@
     <p>
         <h1 class="center-box" style="color: blue;">记广-快捷菜单</h1>
         <br>
-        <b>当前目录名:</b><i>测试</i>&nbsp;&nbsp;&nbsp;<a href="" id="editFolderName" >修改名字</a>
+        <b>当前目录名:</b><i id="folderName">测试</i>&nbsp;&nbsp;&nbsp;<a href="" id="editFolderName" >修改名字</a>
         <br>
-        <button type="button" class="btn btn-primary">
-            <img src="/icons/bookmark-plus.svg" alt="Bootstrap" width="20" height="20" class="black-2-write">
-          添加页面（暂不支持）</button>
+        <button type="button" class="btn btn-primary" id="click_addWeb">
+            <img src="/icons/bookmark-plus.svg" alt="Bootstrap" width="20" height="20" class="black-2-write" >
+          添加页面</button>
         <!--<button type="button" class="btn btn-secondary">视图（暂不支持）</button>--><!--用于切换详细与简略视图，类似简略阅读列表-->
-        <button type="button" class="btn btn-danger" id="clearFolder">清空列表</button>
+        <button type="button" class="btn btn-danger" id="click_clearFolder">清空列表</button>
         <!--id有时用于设定为处理函数-->
         <!--<a href="./config.html" id="configLink" target="_blank">设置页面</a>
         -->
@@ -42,6 +42,7 @@
     <p>
         <button type="button" class="btn btn-success">导出为Markdown（暂不支持）</button>
     </p>
-        <!--设计一个框体，首先遍历所有网页分别进div，后嵌套一个div显示网页内剪藏的内容-->
-        <script src="./popup.js"></script>
+    <!--设计一个框体，首先遍历所有网页分别进div，后嵌套一个div显示网页内剪藏的内容-->
+    <script type="text/javascript" src="popup.js"></script>
+    <div id="viewClips"></div>
     </body>
