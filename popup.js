@@ -252,7 +252,7 @@ function displayWebsiteData(urlList,titleList,clipList){
         //document.getElementById(urlCount_id).textContent = text;
     })
     for (let longNumber = 0; longNumber < urlListLong; longNumber++) {
-        let webArea = document.createElement("div"); 
+        let webArea = document.createElement("ul"); 
         let clipCount_id = "clip_" +  longNumber;
         let webCount_id = "web_" +  longNumber;
         webArea.setAttribute("id",clipCount_id);
