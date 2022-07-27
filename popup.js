@@ -3,6 +3,7 @@
 //获取当前标签页url,标题（返回了一个很多信息的数组array）
 var tabUrl,tabTitle;
 var urlList_display,titleList_display,clipList_display;
+var urlExport,titleExport,clipExport
 //var webCount = 0;
 
 chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
@@ -16,8 +17,9 @@ chrome.storage.local.get({ "websiteList": [] }, function (object) { //获取所�
     
     //检测到当前网页在集锦内，将添加页面按钮改为已加入按钮（后面改为删除按钮
     if(urlList_display.includes(tabUrl) == true){
-        document.getElementById("click_addWeb").setAttribute("class","btn btn-danger");
-        document.getElementById("click_addWeb").textContent = "取消添加";
+        document.getElementById("click_addWeb").setAttribute("class","btn btn-warning");
+        //document.getElementById("click_addWeb").textContent = "取消添加";
+        document.getElementById("click_addWeb").innerHTML = "<img src='icons/bookmark-plus-fill.svg' alt='Bootstrap' width='20' height='20' class='black-2-write' id='pageStatus'>取消添加";
         document.getElementById("click_addWeb").setAttribute("id","click_delWeb");
         //绑定删除函数
         let btndelWeb = document.getElementById("click_delWeb"); //获取id为xx的元素
@@ -33,18 +35,15 @@ chrome.storage.local.get({ "websiteList": [] }, function (object) { //获取所�
     })
 })
 
-
-
-
-
-//    chrome.storage.local.get({ "webClipList": [] }, function (object) { //获取所有剪藏
-//    let dataList = object["webClipList"]; //末尾没分号？
-//    if(dataList.length == 0) {
-//        let p = document.createElement("p");
-//        p.innerText = "暂无数据";
-//        document.getElementById("viewClips").appendChild(p); //getelements只能写在代码里面，不能作为变量提取
-//        return;
-//        }
+chrome.storage.local.get({ "webClipList": [] }, function (object) { //获取所有剪藏
+let dataList = object["webClipList"]; //末尾没分号？
+if(dataList.length == 0) {
+    let p = document.createElement("p");
+    p.innerText = "啊哦，还没有剪藏哦，试试在页面上选中文本点击菜单内的“识广”吧";
+    document.getElementById("viewClips").appendChild(p); //getelements只能写在代码里面，不能作为变量提取
+    return;
+    }
+})
         
     //显示所有的摘抄
 //    dataList.forEach(function (text) {
@@ -52,11 +51,22 @@ chrome.storage.local.get({ "websiteList": [] }, function (object) { //获取所�
 //        div.innerText = text; //写入div
 //        document.getElementById("viewClips").appendChild(div); //？添加新元素至末尾
 //        })
-//})//一整个取得列表的get...
+//一整个取得列表的get...
 
+//显示当前集锦文件夹的名字
+chrome.storage.local.get("folderName", function (object) { //获取所有剪藏
+    let text = object["folderName"];
+    if(text != ""){
+        document.getElementById("folderName").innerText = text;
+    }
+    else
+    {
+        document.getElementById("folderName").innerText = "（未命名）";
+    }
+})
 
 //清空按钮
-function clearFolder()
+function ClearFolder()
 {
     chrome.storage.local.get({ "webClipList": [] }, function (object) {
     let dataList = object["webClipList"];
@@ -95,12 +105,30 @@ function ClearList(listName){
 }
 //本地使用不能写OnClick，折中写id
 let btnClearFolder = document.getElementById("click_clearFolder"); //获取id为xx的元素
-btnClearFolder.onclick = clearFolder;
+btnClearFolder.onclick = ClearFolder;
 
 function folderRename()
 {
     //获取先前名字（Chrome的string值）
+    chrome.storage.local.get( "folderName", function (object) { //获取所有剪藏
+        let text = object["folderName"];
+        //初始化避免空错误
+        let name = text;
+        if(text != ""){
+            name = prompt("重命名剪藏集锦",text);
+        }
+        else
+        {
+            name = prompt("重命名剪藏集锦","（未命名）");
+        }
+        if(name != null){
+            chrome.storage.local.set({"folderName":name});
+            location.reload();
+        }
+    })
 }
+let urlClearFolder = document.getElementById("editFolderName"); //获取id为xx的元素
+urlClearFolder.onclick = folderRename;
 
 //addWeb.onclick = addWeb(); //执行此行代码会自动在popup是添加页面
 
@@ -131,6 +159,7 @@ function AddWeb()
 }
 let btnAddWeb = document.getElementById("click_addWeb"); //获取id为xx的元素
 btnAddWeb.onclick = AddWeb;
+
 //与background相同
 //function NewWebTitleList(title){
 //    chrome.storage.local.get({"webTitleList":[]},function(object){
@@ -278,3 +307,43 @@ function displayWebsiteData(urlList,titleList,clipList){
 function noticeTest(){
     window.alert("测试成功");
 }
+
+//将字符串转换为文件下载
+function CreateAndDownloadFile(fileName, content) {
+    let aTag = document.createElement('a');
+    let blob = new Blob([content]);
+    aTag.download = fileName;
+    aTag.href = URL.createObjectURL(blob);
+    aTag.click();
+    URL.revokeObjectURL(blob);
+}
+
+function ExportFolder(){
+    //打开3个数据表后一个一个来
+    chrome.storage.local.get({"webTitleList":[]},function(object){
+        titleExport = object["webTitleList"];
+        chrome.storage.local.get({"webClipList":[]},function(object){
+            clipExport = object["webClipList"];
+            chrome.storage.local.get({"websiteList":[]},function(object){
+                urlExport = object["websiteList"];
+                chrome.storage.local.get("folderName", function (object) { //获取所有剪藏
+                    let name = object["folderName"];
+                    //let num = urlExport.length;
+                    //使用Windows的换行模式
+                    let finalExportText = "# " + name + "\r\n";
+                    for (let webNumber = 0; webNumber < urlExport.length; webNumber++) {
+                        finalExportText = finalExportText + "[" +titleExport[webNumber] + "](" + urlExport[webNumber] + ")\r\n";
+                        clipExport[webNumber].forEach(function (clipText) {
+                        finalExportText = finalExportText + "- " + clipText + "\r\n";
+                        })
+                    finalExportText = finalExportText + "\r\n";
+                }
+                    fileName = name+ " " + Date() + ".md";
+                    CreateAndDownloadFile(fileName,finalExportText);//这里后面加个时间
+                })
+            }) 
+        })
+    })
+}
+let btnExport = document.getElementById("export-markdown"); //获取id为xx的元素
+btnExport.onclick = ExportFolder;

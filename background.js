@@ -27,12 +27,12 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
                 dataList.push(url);
                 chrome.storage.local.set({ "websiteList": dataList });
                 //NewWebTitleList(title);//新建网址标题
-                //NewWebClipList();//新建空剪藏列表
                 chrome.storage.local.get({"webTitleList":[]},function(object){
                     let dataList = object["webTitleList"];
                     dataList.push(title);
                     chrome.storage.local.set({ "webTitleList": dataList }); //设置名为list的列表
-                    })
+                })
+                //NewWebClipList();//新建空剪藏列表
                 chrome.storage.local.get({ "webClipList": [] }, function (object) { //先get再set
                     let dataList = object["webClipList"];
                     let emptyList = new Array();
@@ -53,7 +53,6 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
                     let dataList = object["webClipList"];
                     //检测网址是否存在
                     dataList[this.listLocationNumber].push(info.selectionText); //猜测是追加
-                    
                     chrome.storage.local.set({ "webClipList": dataList }); //设置名为list的列表
                 })
                 //return num;

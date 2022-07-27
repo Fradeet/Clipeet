@@ -29,25 +29,25 @@
 <body style="background-color: white;">
     <link href="bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <!-- 不知道是干嘛的 <link rel="stylesheet" href="pop.css"> -->
+    <div class="center-box" style="color: black;">记广-快捷菜单</div>
     <p>
-        <h1 class="center-box" style="color: black;">记广-快捷菜单</h1>
+        <b>当前目录名:</b><i id="folderName"></i>&nbsp;&nbsp;&nbsp;<button id="editFolderName" >修改名字</button>
         <br>
-        <b>当前目录名:</b><i id="folderName">测试</i>&nbsp;&nbsp;&nbsp;<a href="" id="editFolderName" >修改名字</a>
-        <br>
-        <button type="button" class="btn btn-primary" id="click_addWeb">
-            <img src="icons/bookmark-plus.svg" alt="Bootstrap" width="20" height="20" class="black-2-write" id="pageStatus">
-          添加页面</button>
+        <button type="button" class="btn btn-primary" id="click_addWeb" >
+            <img src="icons/bookmark-plus.svg" alt="Bootstrap" width="20" height="20" class="black-2-write" id="pageStatus">添加页面</button>
         <!--<button type="button" class="btn btn-secondary">视图（暂不支持）</button>--><!--用于切换详细与简略视图，类似简略阅读列表-->
-        <button type="button" class="btn btn-danger" id="click_clearFolder">清空列表</button>
+        <button type="button" class="btn btn-danger" id="click_clearFolder" title="清空列表">清空列表</button>
+        <button type="button" class="btn btn-secondary">管理（开发中）</button>
+        <button type="button" class="btn btn-success" style=float:right id="export-markdown">导出为MD文件</button>
         <!--id有时用于设定为处理函数-->
         <!--<a href="./config.html" id="configLink" target="_blank">设置页面</a>
         -->
     </p>
-    <p>
-        <button type="button" class="btn btn-success">导出为Markdown（暂不支持）</button>
-    </p>
     <!--设计一个框体，首先遍历所有网页分别进div，后嵌套一个div显示网页内剪藏的内容-->
+    <br>
+    <hr>
     <div id="viewClips"></div>
+    <hr>
     <div class="ccby"><i>Writtern By <a rel="stylesheet" href="https://github.com/Fradeet" target="_blank">Fradeet</a></i></div>
     <script type="text/javascript" src="popup.js"></script>
     </body>
