@@ -20,18 +20,22 @@
         .black-2-write {
             filter: invert(1);
         }
+        .ccby { 
+            float: right;
+            font-size: 0.5px;
+        }
     </style>
 </head>
 <body style="background-color: white;">
     <link href="bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <!-- 不知道是干嘛的 <link rel="stylesheet" href="pop.css"> -->
     <p>
-        <h1 class="center-box" style="color: blue;">记广-快捷菜单</h1>
+        <h1 class="center-box" style="color: black;">记广-快捷菜单</h1>
         <br>
         <b>当前目录名:</b><i id="folderName">测试</i>&nbsp;&nbsp;&nbsp;<a href="" id="editFolderName" >修改名字</a>
         <br>
         <button type="button" class="btn btn-primary" id="click_addWeb">
-            <img src="/icons/bookmark-plus.svg" alt="Bootstrap" width="20" height="20" class="black-2-write" >
+            <img src="icons/bookmark-plus.svg" alt="Bootstrap" width="20" height="20" class="black-2-write" id="pageStatus">
           添加页面</button>
         <!--<button type="button" class="btn btn-secondary">视图（暂不支持）</button>--><!--用于切换详细与简略视图，类似简略阅读列表-->
         <button type="button" class="btn btn-danger" id="click_clearFolder">清空列表</button>
@@ -43,6 +47,7 @@
         <button type="button" class="btn btn-success">导出为Markdown（暂不支持）</button>
     </p>
     <!--设计一个框体，首先遍历所有网页分别进div，后嵌套一个div显示网页内剪藏的内容-->
-    <script type="text/javascript" src="popup.js"></script>
     <div id="viewClips"></div>
+    <div class="ccby"><i>Writtern By <a rel="stylesheet" href="https://github.com/Fradeet" target="_blank">Fradeet</a></i></div>
+    <script type="text/javascript" src="popup.js"></script>
     </body>

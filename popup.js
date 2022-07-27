@@ -1,54 +1,97 @@
 //var newDiv = document.getElementById("viewClips");
 
-//显示剪藏网页
-chrome.storage.local.get({ "websiteList": [] }, function (object) { //获取所有剪藏
-    let dataList = object["websiteList"]; 
-        
-    dataList.forEach(function (text) {
-        let div = document.createElement("div"); 
-        //给这些外围div加点id，后面要嵌套剪藏的div
-        
-        div.innerText = text; 
-        document.getElementById("viewClips").appendChild(div); //？添加新元素至末尾
-        })   
-    })
+//获取当前标签页url,标题（返回了一个很多信息的数组array）
+var tabUrl,tabTitle;
+var urlList_display,titleList_display,clipList_display;
+//var webCount = 0;
 
-chrome.storage.local.get({ "clipList": [] }, function (object) { //获取所有剪藏
-    let dataList = object["clipList"]; //末尾没分号？
-    if(dataList.length == 0) {
-        let p = document.createElement("p");
-        p.innerText = "暂无数据";
-        document.getElementById("viewClips").appendChild(p); //getelements只能写在代码里面，不能作为变量提取
-        return;
-        }
+chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
+    tabUrl = tabs[0].url;
+    tabTitle = tabs[0].title;
+});
+
+//显示剪藏网页文本
+chrome.storage.local.get({ "websiteList": [] }, function (object) { //获取所有剪藏
+    urlList_display = object["websiteList"]; 
+    
+    //检测到当前网页在集锦内，将添加页面按钮改为已加入按钮（后面改为删除按钮
+    if(urlList_display.includes(tabUrl) == true){
+        document.getElementById("click_addWeb").setAttribute("class","btn btn-danger");
+        document.getElementById("click_addWeb").textContent = "取消添加";
+        document.getElementById("click_addWeb").setAttribute("id","click_delWeb");
+        //绑定删除函数
+        let btndelWeb = document.getElementById("click_delWeb"); //获取id为xx的元素
+        btndelWeb.onclick = DelWeb;
+    }
+    chrome.storage.local.get({"webTitleList":[]},function(object){
+        titleList_display = object["webTitleList"];
+        chrome.storage.local.get({"webClipList":[]},function(object){
+            clipList_display = object["webClipList"]
+            //先贴上网址div，再在里面嵌套多个剪藏div。
+            displayWebsiteData(urlList_display,titleList_display,clipList_display);
+        })
+    })
+})
+
+
+
+
+
+//    chrome.storage.local.get({ "webClipList": [] }, function (object) { //获取所有剪藏
+//    let dataList = object["webClipList"]; //末尾没分号？
+//    if(dataList.length == 0) {
+//        let p = document.createElement("p");
+//        p.innerText = "暂无数据";
+//        document.getElementById("viewClips").appendChild(p); //getelements只能写在代码里面，不能作为变量提取
+//        return;
+//        }
         
     //显示所有的摘抄
-    dataList.forEach(function (text) {
-        let div = document.createElement("div"); //创建一个div
-        div.innerText = text; //写入div
-        document.getElementById("viewClips").appendChild(div); //？添加新元素至末尾
-        })
-})//一整个取得列表的get...
+//    dataList.forEach(function (text) {
+//        let div = document.createElement("div"); //创建一个div
+//        div.innerText = text; //写入div
+//        document.getElementById("viewClips").appendChild(div); //？添加新元素至末尾
+//        })
+//})//一整个取得列表的get...
 
 
 //清空按钮
 function clearFolder()
 {
-    chrome.storage.local.get({ "clipList": [] }, function (object) {
-    let dataList = object["clipList"];
+    chrome.storage.local.get({ "webClipList": [] }, function (object) {
+    let dataList = object["webClipList"];
     dataList = [];
-    chrome.storage.local.set({ "clipList": dataList });
+    chrome.storage.local.set({ "webClipList": dataList });
     })
-    //清空网址列表
+    //清空网址，标题，剪藏列表
     chrome.storage.local.get({ "websiteList": [] }, function (object) { 
         let dataList = object["websiteList"];
         dataList = []; 
         chrome.storage.local.set({ "websiteList": dataList });
     })
+    chrome.storage.local.get({ "webClipList": [] }, function (object) { 
+        let dataList = object["webClipList"];
+        dataList = []; 
+        chrome.storage.local.set({ "webClipList": dataList });
+    })
+    chrome.storage.local.get({ "webTitleList": [] }, function (object) { 
+        let dataList = object["webTitleList"];
+        dataList = []; 
+        chrome.storage.local.set({ "webTitleList": dataList });
+    })
+    //ClearList("webTitleList");ChromeAPI内不可调用外部函数
     //网页不会重新读取储存，写个强制刷新（或者折中写个弹窗使popup直接关闭）
     window.alert("清空完毕");
     location.reload();
 
+}
+
+function ClearList(listName){
+    chrome.storage.local.get({ listName: [] }, function (object) { 
+        let dataList = object[listName];
+        dataList = []; 
+        chrome.storage.local.set({ listName: dataList });
+    })
 }
 //本地使用不能写OnClick，折中写id
 let btnClearFolder = document.getElementById("click_clearFolder"); //获取id为xx的元素
@@ -61,26 +104,51 @@ function folderRename()
 
 //addWeb.onclick = addWeb(); //执行此行代码会自动在popup是添加页面
 
-function addWeb()
+function AddWeb()
 {
-    url = tabUrl;
-
-    //window.alert("已存在");
-
-    //写入Chrome储存
+    let url = tabUrl;
     chrome.storage.local.get({ "websiteList": [] }, function (object) { 
         let dataList = object["websiteList"];
+    //写入Chrome储存
         dataList.push(url); 
         chrome.storage.local.set({ "websiteList": dataList });
     })
+    chrome.storage.local.get({"webTitleList":[]},function(object){
+        let dataList = object["webTitleList"];
+        dataList.push(tabTitle);
+        chrome.storage.local.set({ "webTitleList": dataList }); //设置名为list的列表
+    })
+    chrome.storage.local.get({ "webClipList": [] }, function (object) { //先get再set
+        let dataList = object["webClipList"];
+        let emptyList = new Array();
+        dataList.push(emptyList);//不生效,好像又生效
+        chrome.storage.local.set({ "webClipList": dataList }); //设置名为list的列表
+    })
+    //NewWebTitleList(tabTitle);
+    //NewWebClipList();//新建空剪藏列表
     window.alert("添加完毕");
     location.reload();
 }
-
 let btnAddWeb = document.getElementById("click_addWeb"); //获取id为xx的元素
-btnAddWeb.onclick = addWeb;
+btnAddWeb.onclick = AddWeb;
+//与background相同
+//function NewWebTitleList(title){
+//    chrome.storage.local.get({"webTitleList":[]},function(object){
+//        let dataList = object["webTitleList"];
+//        dataList.push(title);
+//        chrome.storage.local.set({ "webTitleList": dataList }); //设置名为list的列表
+//        })
+//}
+//function NewWebClipList(){
+//    chrome.storage.local.get({ "webClipList": [] }, function (object) { //先get再set
+//        let dataList = object["webClipList"];
+//        let emptyList = new Array();
+//        dataList.push(emptyList);//不生效,好像又生效
+//        chrome.storage.local.set({ "webClipList": dataList }); //设置名为list的列表
+//        })
+//}
 
-//判断当前网站是否已经在集锦内
+//判断当前网站是否已经在集锦内(暂时没用)
 function CheckWebIn(webSite)
 {
     chrome.storage.local.get({ "websiteList": [] }, function (object) { 
@@ -93,9 +161,120 @@ function CheckWebIn(webSite)
     
 }
 
-//获取当前标签页url（返回了一个很多信息的数组array）
-var tabUrl;
-chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
-    console.log(tabs[0].url);
-    tabUrl = tabs[0].url;
-});
+function DelWeb()
+{
+    let url = tabUrl;
+    let num;
+    chrome.storage.local.get({ "websiteList": [] }, function (object) { 
+        let dataList = object["websiteList"];
+        //定位在网站列表的位置
+        num = dataList.indexOf(url);
+        //dataList = arrayRemove(dataList,url);//旧版代码，使用遍历
+    })
+        //TODO:移除标题，链接，剪藏
+        chrome.storage.local.get({"webTitleList":[]},function(object){
+            let dataList = object["webTitleList"];
+            dataList.splice(num,1);//直接操作列表不返回值
+            chrome.storage.local.set({ "webTitleList": dataList });
+        })
+        chrome.storage.local.get({"webClipList":[]},function(object){
+            let dataList = object["webClipList"];
+            dataList.splice(num,1);//直接操作列表不返回值
+            chrome.storage.local.set({ "webClipList": dataList });
+        })
+        chrome.storage.local.get({"websiteList":[]},function(object){
+            let dataList = object["websiteList"];
+            dataList.splice(num,1);//直接操作列表不返回值
+            chrome.storage.local.set({ "websiteList": dataList });
+        })
+
+        //RemoveListElement("webTitleList",num);
+        //RemoveListElement("webClipList",num);
+        //RemoveListElement("websiteList",num);
+
+    window.alert("移除完毕");
+    location.reload();
+}
+
+//遍历查找数组内某个值并删除
+function arrayRemove(arr, item) {
+    for(var i=arr.length-1;i>=0;i--)
+      {
+       if(arr[i]==item)
+         {
+           arr.splice(i,1);
+          }
+       }
+    return arr;
+}
+
+//注：在其他子函数内无法调用
+function RemoveListElement(listName,num){
+    chrome.storage.local.get({listName:[]},function(object){
+        let dataList = object[listName];
+        dataList.splice(num,1);//直接操作列表不返回值
+        chrome.storage.local.set({ listName: dataList });
+    })
+}
+
+function displayWebsiteData(urlList,titleList,clipList){
+    let webCount = 0;
+    //获取数组长度,铺相应段落
+    urlListLong = urlList.length;
+    //若是a链接元素的话就不能嵌套div，在外面再写一个空白段落
+    for (let longNumber = 0; longNumber < urlListLong; longNumber++) {
+        let webArea = document.createElement("p"); 
+        let webCount_id = "web_" +  longNumber;
+        webArea.setAttribute("id",webCount_id);
+        document.getElementById("viewClips").appendChild(webArea); //？添加新元素至末尾
+    
+    }
+
+        //贴上网址连接
+        urlList.forEach(function (text) {
+        let linkUrl = document.createElement("a"); 
+        //给这些外围div加点id，后面要嵌套剪藏的div
+        let urlCount_id = "url_" +  webCount;
+        let webCount_id = "web_" +  webCount;
+        linkUrl.setAttribute("id",urlCount_id);
+        linkUrl.setAttribute("href",text); 
+        linkUrl.setAttribute("target","_blank")
+        document.getElementById(webCount_id).appendChild(linkUrl); //？添加新元素至末尾
+        webCount += 1;   
+        })
+    webCount = 0;
+    titleList.forEach(function(text){
+        //let linkTitle = document.createElement("div"); 
+        //linkTitle.innerText = text;
+        let urlCount_id = "url_" +  webCount;
+        document.getElementById(urlCount_id).innerText = text;
+        webCount += 1;
+        //document.getElementById(urlCount_id).textContent = text;
+    })
+    for (let longNumber = 0; longNumber < urlListLong; longNumber++) {
+        let webArea = document.createElement("div"); 
+        let clipCount_id = "clip_" +  longNumber;
+        let webCount_id = "web_" +  longNumber;
+        webArea.setAttribute("id",clipCount_id);
+        document.getElementById(webCount_id).appendChild(webArea); //？添加新元素至末尾
+    
+    }
+    webCount = 0;
+    clipList.forEach(function(clipSimpleList){
+        if (clipSimpleList.length != 0) {
+            clipSimpleList.forEach(function(text){
+                let clip = document.createElement("li");
+                let textnode=document.createTextNode(text);
+                //clip.innerText = text;
+                clip.appendChild(textnode);
+                let clipCount_id = "clip_" +  webCount;
+                document.getElementById(clipCount_id).appendChild(clip); //？添加新元素至末尾
+            })            
+            webCount += 1;
+        }
+    })
+}
+
+function noticeTest(){
+    window.alert("测试成功");
+}
