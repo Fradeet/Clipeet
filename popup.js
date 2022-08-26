@@ -9,6 +9,11 @@ var urlExport,titleExport,clipExport
 //初始化语言-测试
 document.getElementById("export-markdown").innerHTML = chrome.i18n.getMessage("exportMD");
 document.getElementById("popup_pagetitle").innerHTML = chrome.i18n.getMessage("Clipeet_popupMenu");
+document.getElementById("manage_button").innerHTML = chrome.i18n.getMessage("managePage");
+document.getElementById("click_clearFolder").innerHTML = chrome.i18n.getMessage("clearPopupList");
+document.getElementById("click_addWeb").innerHTML = "<img src=\"icons/bookmark-plus.svg\" alt=\"Bootstrap\" width=\"20\" height=\"20\" class=\"black-2-write\" id=\"pageStatus\">" + chrome.i18n.getMessage("addWebPageToList");
+document.getElementById("currentListName").innerHTML = chrome.i18n.getMessage("currentListName");
+document.getElementById("editFolderName").innerHTML = chrome.i18n.getMessage("editListName");
 
 chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
     tabUrl = tabs[0].url;
@@ -23,7 +28,7 @@ chrome.storage.local.get({ "websiteList": [] }, function (object) { //获取所�
     if(urlList_display.includes(tabUrl) == true){
         document.getElementById("click_addWeb").setAttribute("class","btn btn-warning");
         //document.getElementById("click_addWeb").textContent = "取消添加";
-        document.getElementById("click_addWeb").innerHTML = "<img src='icons/bookmark-plus-fill.svg' alt='Bootstrap' width='20' height='20' class='black-2-write' id='pageStatus'>取消添加";
+        document.getElementById("click_addWeb").innerHTML = "<img src='icons/bookmark-plus-fill.svg' alt='Bootstrap' width='20' height='20' class='black-2-write' id='pageStatus'>" + chrome.i18n.getMessage("delWebPageToList");
         document.getElementById("click_addWeb").setAttribute("id","click_delWeb");
         //绑定删除函数
         let btndelWeb = document.getElementById("click_delWeb"); //获取id为xx的元素
@@ -43,7 +48,7 @@ chrome.storage.local.get({ "webClipList": [] }, function (object) { //获取所�
 let dataList = object["webClipList"]; //末尾没分号？
 if(dataList.length == 0) {
     let p = document.createElement("p");
-    p.innerText = "啊哦，还没有剪藏哦，试试在页面上选中文本点击菜单内的“记广”吧";
+    p.innerText = chrome.i18n.getMessage("emptyListNotice");
     document.getElementById("viewClips").appendChild(p); //getelements只能写在代码里面，不能作为变量提取
     return;
     }
@@ -65,7 +70,7 @@ chrome.storage.local.get("folderName", function (object) { //获取所有剪藏
     }
     else
     {
-        document.getElementById("folderName").innerText = "（未命名）";
+        document.getElementById("folderName").innerText = chrome.i18n.getMessage("noFolderName");
     }
 })
 
@@ -119,11 +124,11 @@ function folderRename()
         //初始化避免空错误
         let name = text;
         if(text != ""){
-            name = prompt("重命名剪藏集锦",text);
+            name = prompt(chrome.i18n.getMessage("folderRenameNotice"),text);
         }
         else
         {
-            name = prompt("重命名剪藏集锦","（未命名）");
+            name = prompt(chrome.i18n.getMessage("folderRenameNotice"),chrome.i18n.getMessage("noFolderName"));
         }
         if(name != null){
             chrome.storage.local.set({"folderName":name});
@@ -158,7 +163,7 @@ function AddWeb()
     })
     //NewWebTitleList(tabTitle);
     //NewWebClipList();//新建空剪藏列表
-    window.alert("添加完毕");
+    window.alert(chrome.i18n.getMessage("addSuccess"));
     location.reload();
 }
 let btnAddWeb = document.getElementById("click_addWeb"); //获取id为xx的元素
@@ -225,7 +230,7 @@ function DelWeb()
         //RemoveListElement("webClipList",num);
         //RemoveListElement("websiteList",num);
 
-    window.alert("移除完毕");
+    window.alert(chrome.i18n.getMessage("delSuccess"));
     location.reload();
 }
 
@@ -309,7 +314,7 @@ function displayWebsiteData(urlList,titleList,clipList){
 }
 
 function noticeTest(){
-    window.alert("测试成功");
+    window.alert("Test");
 }
 
 //将字符串转换为文件下载

@@ -31,13 +31,13 @@
     <!-- 不知道是干嘛的 <link rel="stylesheet" href="pop.css"> -->
     <div class="center-box" style="color: black;" id="popup_pagetitle">Clipeet</div>
     <p>
-        <b>当前目录名:</b><i id="folderName"></i>&nbsp;&nbsp;&nbsp;<button id="editFolderName" >修改名字</button>
+        <b id="currentListName"></b><i id="folderName"></i>&nbsp;&nbsp;&nbsp;<button id="editFolderName" ></button>
         <br>
         <button type="button" class="btn btn-primary" id="click_addWeb" >
-            <img src="icons/bookmark-plus.svg" alt="Bootstrap" width="20" height="20" class="black-2-write" id="pageStatus">添加页面</button>
+            <img src="icons/bookmark-plus.svg" alt="Bootstrap" width="20" height="20" class="black-2-write" id="pageStatus"></button>
         <!--<button type="button" class="btn btn-secondary">视图（暂不支持）</button>--><!--用于切换详细与简略视图，类似简略阅读列表-->
-        <button type="button" class="btn btn-danger" id="click_clearFolder" title="清空列表">清空列表</button>
-        <button type="button" class="btn btn-secondary">管理（开发中）</button>
+        <button type="button" class="btn btn-danger" id="click_clearFolder" title="Clear List" ></button>
+        <button type="button" class="btn btn-secondary" id="manage_button"></button>
         <button type="button" class="btn btn-success" id="export-markdown"></button>
         <!--id有时用于设定为处理函数-->
         <!--<a href="./config.html" id="configLink" target="_blank">设置页面</a>

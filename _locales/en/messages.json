@@ -1,0 +1,16 @@
+{
+    "titleName":{"message":"Clipeet"},
+    "exportMD":{"message":"Export to MarkDown File"},
+    "Clipeet_popupMenu":{"message":"Clipeet-PopUp"},
+    "managePage":{"message":"Manage Page(Pending)"},
+    "clearPopupList":{"message":"Clear"},
+    "addWebPageToList":{"message":"AddTo"},
+    "delWebPageToList":{"message":"DelTo"},
+    "currentListName":{"message":"CurrentList: "},
+    "editListName":{"message":"Rename"},
+    "emptyListNotice":{"message":"Empty list."},
+    "folderRenameNotice":{"message":"Rename the folder"},
+    "noFolderName":{"message":"(no Name)"},
+    "addSuccess":{"message":"Success"},
+    "delSuccess":{"message":"Success"}
+}
