@@ -6,6 +6,10 @@ var urlList_display,titleList_display,clipList_display;
 var urlExport,titleExport,clipExport
 //var webCount = 0;
 
+//初始化语言-测试
+document.getElementById("export-markdown").innerHTML = chrome.i18n.getMessage("exportMD");
+document.getElementById("popup_pagetitle").innerHTML = chrome.i18n.getMessage("Clipeet_popupMenu");
+
 chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
     tabUrl = tabs[0].url;
     tabTitle = tabs[0].title;
@@ -39,7 +43,7 @@ chrome.storage.local.get({ "webClipList": [] }, function (object) { //获取所�
 let dataList = object["webClipList"]; //末尾没分号？
 if(dataList.length == 0) {
     let p = document.createElement("p");
-    p.innerText = "啊哦，还没有剪藏哦，试试在页面上选中文本点击菜单内的“识广”吧";
+    p.innerText = "啊哦，还没有剪藏哦，试试在页面上选中文本点击菜单内的“记广”吧";
     document.getElementById("viewClips").appendChild(p); //getelements只能写在代码里面，不能作为变量提取
     return;
     }
