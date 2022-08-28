@@ -1,5 +1,5 @@
 {
-    "titleName":{"message":"记广Clipeet"},
+    "titleName":{"message":"记广Clipeet - 多页面信息合为一"},
     "exportMD":{"message":"导出为MD文件"},
     "Clipeet_popupMenu":{"message":"记广Clipeet-快捷菜单"},
     "managePage":{"message":"管理页面（开发中）"},
@@ -12,5 +12,6 @@
     "folderRenameNotice":{"message":"重命名剪藏集锦"},
     "noFolderName":{"message":"（未命名）"},
     "addSuccess":{"message":"添加完毕"},
-    "delSuccess":{"message":"移除完毕"}
+    "delSuccess":{"message":"移除完毕"},
+    "clearSuccess":{"message":"清空完毕"}
 }

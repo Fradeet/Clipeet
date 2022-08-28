@@ -1,5 +1,5 @@
 {
-    "titleName":{"message":"Clipeet"},
+    "titleName":{"message":"Clipeet - Clip Muti-pages info in single page."},
     "exportMD":{"message":"Export to MarkDown File"},
     "Clipeet_popupMenu":{"message":"Clipeet-PopUp"},
     "managePage":{"message":"Manage Page(Pending)"},
@@ -11,6 +11,7 @@
     "emptyListNotice":{"message":"Empty list."},
     "folderRenameNotice":{"message":"Rename the folder"},
     "noFolderName":{"message":"(no Name)"},
-    "addSuccess":{"message":"Success"},
-    "delSuccess":{"message":"Success"}
+    "addSuccess":{"message":"Success."},
+    "delSuccess":{"message":"Success."},
+    "clearSuccess":{"message":"Cleared."}
 }
