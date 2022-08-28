@@ -9,7 +9,7 @@ var urlExport,titleExport,clipExport
 //初始化语言-测试
 document.getElementById("export-markdown").innerHTML = chrome.i18n.getMessage("exportMD");
 document.getElementById("popup_pagetitle").innerHTML = chrome.i18n.getMessage("Clipeet_popupMenu");
-document.getElementById("manage_button").innerHTML = chrome.i18n.getMessage("managePage");
+//document.getElementById("manage_button").innerHTML = chrome.i18n.getMessage("managePage");
 document.getElementById("click_clearFolder").innerHTML = chrome.i18n.getMessage("clearPopupList");
 document.getElementById("click_addWeb").innerHTML = "<img src=\"icons/bookmark-plus.svg\" alt=\"Bootstrap\" width=\"20\" height=\"20\" class=\"black-2-write\" id=\"pageStatus\">" + chrome.i18n.getMessage("addWebPageToList");
 document.getElementById("currentListName").innerHTML = chrome.i18n.getMessage("currentListName");
