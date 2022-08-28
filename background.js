@@ -9,7 +9,7 @@ var listLocationNumber;
 chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
         id: 'log',
-        title:"剪藏: %s",
+        title:"记广: %s",
         contexts: ["selection"] //选中的文本
     });
 });

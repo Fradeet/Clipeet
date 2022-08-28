@@ -100,7 +100,7 @@ function ClearFolder()
     })
     //ClearList("webTitleList");ChromeAPI内不可调用外部函数
     //网页不会重新读取储存，写个强制刷新（或者折中写个弹窗使popup直接关闭）
-    window.alert("清空完毕");
+    window.alert(chrome.i18n.getMessage("clearSuccess"));
     location.reload();
 
 }
@@ -308,8 +308,8 @@ function displayWebsiteData(urlList,titleList,clipList){
                 let clipCount_id = "clip_" +  webCount;
                 document.getElementById(clipCount_id).appendChild(clip); //？添加新元素至末尾
             })            
-            webCount += 1;
         }
+        webCount += 1;
     })
 }
 
