@@ -317,7 +317,7 @@ function noticeTest(){
     window.alert("Test");
 }
 
-//将字符串转换为文件下载
+//将字符串转换为文件下载 Text to Markdown file
 function CreateAndDownloadFile(fileName, content) {
     let aTag = document.createElement('a');
     let blob = new Blob([content]);
