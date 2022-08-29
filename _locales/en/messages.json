@@ -1,17 +1,17 @@
 {
     "titleName":{"message":"Clipeet - Clip Muti-pages info in single page."},
-    "exportMD":{"message":"Export to MarkDown File"},
-    "Clipeet_popupMenu":{"message":"Clipeet-PopUp"},
     "managePage":{"message":"Manage Page(Pending)"},
-    "clearPopupList":{"message":"Clear"},
-    "addWebPageToList":{"message":"AddTo"},
     "delWebPageToList":{"message":"DelTo"},
-    "currentListName":{"message":"CurrentList: "},
-    "editListName":{"message":"Rename"},
-    "emptyListNotice":{"message":"Empty list."},
     "folderRenameNotice":{"message":"Rename the folder"},
     "noFolderName":{"message":"(no Name)"},
     "addSuccess":{"message":"Success."},
     "delSuccess":{"message":"Success."},
-    "clearSuccess":{"message":"Cleared."}
+    "clearSuccess":{"message":"Cleared."},
+    "githubLinkFontSize":{"message":"11px"},
+    "emptyListNotice":{
+        "message":"Empty list."
+    },
+    "uiLocaleText":{
+        "message":"{\"exportMD\":\"Export to MarkDown File\",\"Clipeet_popupMenuTitle\":\"Clipeet-PopUp\",\"clearPopupList\":\"Clear\",\"addWebPageToList\":\"AddTo\",\"currentListName\":\"CurrentList: \",\"editListName\":\"Rename\"}"
+    }
 }

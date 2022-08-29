@@ -6,25 +6,25 @@ var urlList_display,titleList_display,clipList_display;
 var urlExport,titleExport,clipExport
 //var webCount = 0;
 
-//初始化语言-测试
-document.getElementById("export-markdown").innerHTML = chrome.i18n.getMessage("exportMD");
-document.getElementById("popup_pagetitle").innerHTML = chrome.i18n.getMessage("Clipeet_popupMenu");
-//document.getElementById("manage_button").innerHTML = chrome.i18n.getMessage("managePage");
-document.getElementById("click_clearFolder").innerHTML = chrome.i18n.getMessage("clearPopupList");
-document.getElementById("click_addWeb").innerHTML = "<img src=\"icons/bookmark-plus.svg\" alt=\"Bootstrap\" width=\"20\" height=\"20\" class=\"black-2-write\" id=\"pageStatus\">" + chrome.i18n.getMessage("addWebPageToList");
-document.getElementById("currentListName").innerHTML = chrome.i18n.getMessage("currentListName");
-document.getElementById("editFolderName").innerHTML = chrome.i18n.getMessage("editListName");
+//UI本地化字典 Dictionary-initialize locale language UI 
+var uiDict = JSON.parse(chrome.i18n.getMessage("uiLocaleText"));
+document.getElementById("export-markdown").innerHTML = uiDict["exportMD"];
+document.getElementById("popup_pagetitle").innerHTML = uiDict["Clipeet_popupMenuTitle"];
+document.getElementById("click_clearFolder").innerHTML = uiDict["clearPopupList"];
+document.getElementById("click_addWeb").innerHTML = "<img src=\"icons/bookmark-plus.svg\" alt=\"Bootstrap\" width=\"20\" height=\"20\" class=\"black-2-write\" id=\"pageStatus\">" + uiDict["addWebPageToList"];
+document.getElementById("currentListName").innerHTML = uiDict["currentListName"];
+document.getElementById("editFolderName").innerHTML = uiDict["editListName"];
 
 chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
     tabUrl = tabs[0].url;
     tabTitle = tabs[0].title;
 });
 
-//显示剪藏网页文本
+//显示剪藏网页文本 diaplay current clip
 chrome.storage.local.get({ "websiteList": [] }, function (object) { //获取所有剪藏
     urlList_display = object["websiteList"]; 
     
-    //检测到当前网页在集锦内，将添加页面按钮改为已加入按钮（后面改为删除按钮
+    //检测到当前网页在集锦内，将添加页面按钮改为已加入按钮（后面改为删除按钮 Remove button
     if(urlList_display.includes(tabUrl) == true){
         document.getElementById("click_addWeb").setAttribute("class","btn btn-warning");
         //document.getElementById("click_addWeb").textContent = "取消添加";
@@ -62,7 +62,7 @@ if(dataList.length == 0) {
 //        })
 //一整个取得列表的get...
 
-//显示当前集锦文件夹的名字
+//显示当前集锦文件夹的名字 current folder name
 chrome.storage.local.get("folderName", function (object) { //获取所有剪藏
     let text = object["folderName"];
     if(text != ""){
@@ -74,7 +74,7 @@ chrome.storage.local.get("folderName", function (object) { //获取所有剪藏
     }
 })
 
-//清空按钮
+//清空按钮 Clear button
 function ClearFolder()
 {
     chrome.storage.local.get({ "webClipList": [] }, function (object) {
@@ -112,7 +112,7 @@ function ClearList(listName){
         chrome.storage.local.set({ listName: dataList });
     })
 }
-//本地使用不能写OnClick，折中写id
+//本地使用不能写OnClick，折中写id blind button
 let btnClearFolder = document.getElementById("click_clearFolder"); //获取id为xx的元素
 btnClearFolder.onclick = ClearFolder;
 
@@ -186,7 +186,7 @@ btnAddWeb.onclick = AddWeb;
 //        })
 //}
 
-//判断当前网站是否已经在集锦内(暂时没用)
+//判断当前网站是否已经在集锦内(暂时没用) No use
 function CheckWebIn(webSite)
 {
     chrome.storage.local.get({ "websiteList": [] }, function (object) { 

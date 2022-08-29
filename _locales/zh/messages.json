@@ -1,17 +1,17 @@
 {
     "titleName":{"message":"记广Clipeet - 多页面信息合为一"},
-    "exportMD":{"message":"导出为MD文件"},
-    "Clipeet_popupMenu":{"message":"记广Clipeet-快捷菜单"},
     "managePage":{"message":"管理页面（开发中）"},
-    "clearPopupList":{"message":"清空列表"},
-    "addWebPageToList":{"message":"添加页面"},
     "delWebPageToList":{"message":"取消添加"},
-    "currentListName":{"message":"当前目录名："},
-    "editListName":{"message":"修改名字"},
-    "emptyListNotice":{"message":"啊哦，还没有剪藏哦，试试在页面上选中文本点击右键菜单内的“记广”吧。"},
     "folderRenameNotice":{"message":"重命名剪藏集锦"},
     "noFolderName":{"message":"（未命名）"},
     "addSuccess":{"message":"添加完毕"},
     "delSuccess":{"message":"移除完毕"},
-    "clearSuccess":{"message":"清空完毕"}
+    "clearSuccess":{"message":"清空完毕"},
+    "githubLinkFontSize":{"message":"0.5px"},
+    "emptyListNotice":{
+        "message":"啊哦，还没有剪藏哦，试试在页面上选中文本点击右键菜单内的“记广”吧。"
+    },
+    "uiLocaleText":{
+        "message":"{\"exportMD\":\"导出为MD文件\",\"Clipeet_popupMenuTitle\":\"记广Clipeet-快捷菜单\",\"clearPopupList\":\"清空列表\",\"addWebPageToList\":\"添加页面\",\"currentListName\":\"当前目录名：\",\"editListName\":\"修改名字\"}"
+    }
 }
