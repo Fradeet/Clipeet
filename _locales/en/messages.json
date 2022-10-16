@@ -12,6 +12,8 @@
         "message":"Empty list."
     },
     "uiLocaleText":{
-        "message":"{\"exportMD\":\"Export to MarkDown File\",\"Clipeet_popupMenuTitle\":\"Clipeet-PopUp\",\"clearPopupList\":\"Clear\",\"addWebPageToList\":\"AddTo\",\"currentListName\":\"CurrentList: \",\"editListName\":\"Rename\"}"
-    }
+        "message":"{\"exportMD\":\"Export to MarkDown File\",\"copyMD\":\"Copy Markdown text\",\"Clipeet_popupMenuTitle\":\"Clipeet-PopUp\",\"clearPopupList\":\"Clear\",\"addWebPageToList\":\"AddTo\",\"currentListName\":\"CurrentList: \",\"editListName\":\"Rename\"}"
+    },
+    "copyMDSuccess":{"message":"Copied."},
+    "exportMDSuccess":{"message":"Downloading..."}
 }

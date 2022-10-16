@@ -9,6 +9,7 @@ var urlExport,titleExport,clipExport
 //UI本地化字典 Dictionary-initialize locale language UI 
 var uiDict = JSON.parse(chrome.i18n.getMessage("uiLocaleText"));
 document.getElementById("export-markdown").innerHTML = uiDict["exportMD"];
+document.getElementById("copy-markdown").innerHTML = uiDict["copyMD"];
 document.getElementById("popup_pagetitle").innerHTML = uiDict["Clipeet_popupMenuTitle"];
 document.getElementById("click_clearFolder").innerHTML = uiDict["clearPopupList"];
 document.getElementById("click_addWeb").innerHTML = "<img src=\"icons/bookmark-plus.svg\" alt=\"Bootstrap\" width=\"20\" height=\"20\" class=\"black-2-write\" id=\"pageStatus\">" + uiDict["addWebPageToList"];
@@ -349,6 +350,7 @@ function ExportFolder(){
                 }
                     fileName = name+ " " + Date() + ".md";
                     CreateAndDownloadFile(fileName,finalExportText);//这里后面加个时间
+                    document.getElementById("export-markdown").innerHTML = chrome.i18n.getMessage("exportMDSuccess");                
                 })
             }) 
         })
@@ -356,3 +358,33 @@ function ExportFolder(){
 }
 let btnExport = document.getElementById("export-markdown"); //获取id为xx的元素
 btnExport.onclick = ExportFolder;
+
+function CopyFolder(){
+    //打开3个数据表后一个一个来
+    chrome.storage.local.get({"webTitleList":[]},function(object){
+        titleExport = object["webTitleList"];
+        chrome.storage.local.get({"webClipList":[]},function(object){
+            clipExport = object["webClipList"];
+            chrome.storage.local.get({"websiteList":[]},function(object){
+                urlExport = object["websiteList"];
+                chrome.storage.local.get("folderName", function (object) { //获取所有剪藏
+                    let name = object["folderName"];
+                    //let num = urlExport.length;
+                    //使用Windows的换行模式
+                    let finalExportText = "# " + name + "\r\n";
+                    for (let webNumber = 0; webNumber < urlExport.length; webNumber++) {
+                        finalExportText = finalExportText + "[" +titleExport[webNumber] + "](" + urlExport[webNumber] + ")\r\n";
+                        clipExport[webNumber].forEach(function (clipText) {
+                        finalExportText = finalExportText + "- " + clipText + "\r\n";
+                        })
+                    finalExportText = finalExportText + "\r\n";
+                }
+                    navigator.clipboard.writeText(finalExportText);//写入剪贴板 Write Clipboard
+                    document.getElementById("copy-markdown").innerHTML = chrome.i18n.getMessage("copyMDSuccess");
+                })
+            }) 
+        })
+    })
+}
+let btnCopy = document.getElementById("copy-markdown"); //获取id为xx的元素
+btnCopy.onclick = CopyFolder;
