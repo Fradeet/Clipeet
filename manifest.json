@@ -1,7 +1,7 @@
 {
     "name": "__MSG_titleName__",
     "description": "跨多页面摘抄笔记",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "default_locale":"zh",
     "manifest_version": 3,
     "permissions": [
