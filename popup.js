@@ -371,7 +371,7 @@ function CopyFolder(){
                     let name = object["folderName"];
                     //let num = urlExport.length;
                     //使用Windows的换行模式
-                    let finalExportText = "# " + name + "\r\n";
+                    let finalExportText = "";
                     for (let webNumber = 0; webNumber < urlExport.length; webNumber++) {
                         finalExportText = finalExportText + "[" +titleExport[webNumber] + "](" + urlExport[webNumber] + ")\r\n";
                         clipExport[webNumber].forEach(function (clipText) {
